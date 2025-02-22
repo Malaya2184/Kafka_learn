@@ -114,7 +114,43 @@ bin\windows\kafka-server-stop.bat
 
 ---
 
-## 7. **Troubleshooting & Logs**
+## 7. **Kafka in KRaft Mode (Without Zookeeper)**
+Kafka introduced **KRaft Mode** (Kafka Raft) as a replacement for Zookeeper, improving scalability and reducing dependencies.
+
+### Format Storage Directory (First Time Only)
+```sh
+bin\windows\kafka-storage.bat format -t <UUID> -c config\kraft\server.properties
+```
+- Replace `<UUID>` with a unique identifier (generate using `bin\windows\kafka-storage.bat random-uuid`).
+
+### Start Kafka in KRaft Mode
+```sh
+bin\windows\kafka-server-start.bat config\kraft\server.properties
+```
+
+### Create a Topic in KRaft Mode
+```sh
+bin\windows\kafka-topics.bat --create --topic myTopic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+```
+
+### List Topics in KRaft Mode
+```sh
+bin\windows\kafka-topics.bat --list --bootstrap-server localhost:9092
+```
+
+### Describe a Topic in KRaft Mode
+```sh
+bin\windows\kafka-topics.bat --describe --topic myTopic --bootstrap-server localhost:9092
+```
+
+### Stop Kafka in KRaft Mode
+```sh
+bin\windows\kafka-server-stop.bat
+```
+
+---
+
+## 8. **Troubleshooting & Logs**
 
 ### Check Broker Logs
 ```sh
@@ -134,7 +170,7 @@ bin\windows\kafka-broker-api-versions.bat --bootstrap-server localhost:9092
 
 ---
 
-## 8. **Useful Commands Summary**
+## 9. **Useful Commands Summary**
 | Command | Description |
 |---------|-------------|
 | `kafka-topics.bat --list` | List all topics |
@@ -145,7 +181,8 @@ bin\windows\kafka-broker-api-versions.bat --bootstrap-server localhost:9092
 | `kafka-consumer-groups.bat --describe --group myGroup` | Describe a consumer group |
 | `zookeeper-server-start.bat config\zookeeper.properties` | Start Zookeeper |
 | `kafka-server-start.bat config\server.properties` | Start Kafka broker |
+| `kafka-storage.bat format -t <UUID> -c config\kraft\server.properties` | Format Kafka storage for KRaft mode |
+| `kafka-server-start.bat config\kraft\server.properties` | Start Kafka in KRaft mode |
 
-This document provides all the essential Kafka commands needed to set up, manage, and troubleshoot Kafka on Windows.
-
+This document provides all the essential Kafka commands needed to set up, manage, and troubleshoot Kafka on Windows, including KRaft mode.
 
